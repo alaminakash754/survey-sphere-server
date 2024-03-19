@@ -156,6 +156,14 @@ async function run() {
       // console.log(result)
     })
 
+    app.get('/surveyDetails/:id', async(req, res) => {
+      const id = req.params.id;
+      const query = {_id: new ObjectId(id)};
+      console.log(query)
+      const result = await surveyCollection.findOne(query);
+      res.send(result);
+    })
+
     app.get('/surveys/:id', async(req, res) => {
       const id = req.params.id;
       const query = {_id: new ObjectId(id)};
@@ -163,6 +171,32 @@ async function run() {
       const result = await surveyCollection.findOne(query);
       res.send(result);
     })
+
+    app.patch('/surveys/:id', async(req, res) => {
+      const item = req.body;
+      const id = req.params.id;
+      const filter = {_id: new ObjectId(id)};
+      const updatedDoc = {
+        $set: {
+          surveyName: item.surveyName,
+          surveyInfo: item.description,
+          category: item.category
+        }
+      }
+      const result = await surveyCollection.updateOne(filter, updatedDoc);
+      res.send(result)
+    })
+
+    
+
+    // app.get('/surveys/:id', async(req, res) => {
+    //   const id = req.params.id;
+    //   const query ={_id: new ObjectId(id)}
+    //   const result = await surveyCollection.findOne(query);
+    //   res.send(result);
+    // })
+
+  
     // Send a ping to confirm a successful connection
     // await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
