@@ -179,7 +179,7 @@ async function run() {
       const updatedDoc = {
         $set: {
           surveyName: item.surveyName,
-          surveyInfo: item.description,
+          description: item.description,
           category: item.category
         }
       }
